@@ -92,7 +92,7 @@ def b_reload():
 
 
 def write_in_csv(q,a):
-	file_path = "QAcsv.csv"
+	file_path = "src/QAcsv.csv"
 	with open(file_path, 'a', newline='\n') as file:
 		writer = csv.writer(file)
 		writer.writerow([str(q), str(a)])
@@ -119,7 +119,7 @@ def select_pdf():
 	# %%
 	import os
 
-	folder_path = 'pdf'
+	folder_path = 'src/pdf'
 	options_list = []
 	# Loop through all the files in the folder
 	for filename in os.listdir(folder_path):
@@ -149,7 +149,7 @@ secret_key = st.secrets['password']
 def page2():
 
 	# Load CSV file into a pandas DataFrame
-	df = pd.read_csv('QAcsv.csv')
+	df = pd.read_csv('src/QAcsv.csv')
 
 	# Display the DataFrame in Streamlit
 	st.write(df)
