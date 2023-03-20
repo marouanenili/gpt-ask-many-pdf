@@ -183,6 +183,7 @@ def query_far(text,options):
 	response_final_and_regulation = get_response_vectors(['FAR'],text)
 	out0 = query2(response_final_and_regulation,text)
 	if len(options) > 0 :
+		task = "complete the text Text1 with information from only Context"
 		response_final_and_regulation = get_response_vectors(options,text)
 		response_final = response_final_and_regulation[0]
 		regulation = response_final_and_regulation[1]
