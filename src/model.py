@@ -258,10 +258,13 @@ def get_response_vectors(names_spaces,text):
 		print(name_space)
 		response = index.query(vector=v,top_k=1,include_values=True,namespace=name_space,include_metadata=True)
 		responses.append((response,name_space))
-	response_final = responses[0]
-	print(response_final)
+	response_final = responses
+
 	for response in responses:
-		print(response)
+		print("final :")
+		print(response_final[0]['matches'][0]['score'])
+		print("response :")
+		print(response[0]['matches'][0]['score'])
 		if response[0]['matches'][0]['score'] > response_final[0]['matches'][0]['score']:
 			response_final = response
 	return response_final
