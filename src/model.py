@@ -259,7 +259,9 @@ def get_response_vectors(names_spaces,text):
 	for name_space in names_spaces:
 		print(name_space)
 		response = index.query(vector=v,top_k=1,include_values=True,namespace=name_space,include_metadata=True)
-		if response['matches'][0]['score'] > 0.5:
+		if len(response['matches']) == 0:
+			continue
+		elif response['matches'][0]['score'] > 0.5:
 			responses.append((response,name_space))
 	if len(responses) == 0:
 		return None
