@@ -269,7 +269,7 @@ def query2(response_final_and_regulation,text, temperature=0.0, max_frags=1, hyd
 	regulation = response_final_and_regulation[1]
 	id = int(response_final['matches'][0]['metadata']['page'])
 	index_name = response_final['namespace']
-	with open("pkl/"+index_name+".pkl", "rb") as f:
+	with open("src/pkl/"+index_name+".pkl", "rb") as f:
 		index = pickle.load(f)
 	out = {}
 	selected = []
