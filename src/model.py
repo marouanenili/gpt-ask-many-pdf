@@ -212,12 +212,12 @@ def query_far(text,options):
 				context_len = ai.get_token_count(context)
 		out['context_len'] = context_len
 		prompt = f"""
-				{task or 'Task: Answer question based on context.'}
+				{task }
 
 				Context:
 				{context}
 
-				Question: {text}
+				Text1: {out0['text']}
 
 				Answer:"""  # TODO: move to prompts.py
 		# Task = "Answer the question truthfully based on the text below. Include verbatim quote and a comment where to find it in the text (page and section number). After the quote write a step by step explanation. Use bullet points. Create a one sentence summary of the preceding output."
