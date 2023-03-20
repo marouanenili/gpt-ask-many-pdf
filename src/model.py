@@ -224,8 +224,8 @@ def query_far(text,options):
 
 		message = [
 			{"role": "system", "content": "Complete the text named Text1 ONLY based on the context add all additional information, rewrite the entire text 1 without writing text1: , then just add the new information from the context if there is"},
-			{"role": "user", "content": "Text1:" + out0['text']},
-			{"role": "user", "content": "Context: " + context},
+			{"role": "system", "content": "Text1:" + out0['text']},
+			{"role": "system", "content": "Context: " + context},
 		]
 
 		# GET ANSWER
