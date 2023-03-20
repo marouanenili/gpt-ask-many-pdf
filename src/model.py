@@ -181,7 +181,7 @@ def query(selected_options,text, index, task=None, temperature=0.0, max_frags=1,
 def query_far(text,options):
 	import pickle
 	response_final_and_regulation = get_response_vectors('FAR',text)
-	out0 = query2(response_final_and_regulation)
+	out0 = query2(response_final_and_regulation,text)
 	if len(options) > 0 :
 		response_final_and_regulation = get_response_vectors(options,text)
 		response_final = response_final_and_regulation[0]
