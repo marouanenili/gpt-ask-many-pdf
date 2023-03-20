@@ -69,7 +69,7 @@ def b_ask():
 
 		with st.spinner('preparing answer'):
 			vector = model.get_response_vectors(ss.selected_options,text)
-			resp = model.query2(vector, text)
+			resp = model.query_far(vector, text)
 		q = text.strip() +' ('+resp['regulation']+")"
 		a = resp['text']  #.strip()
 		output_add(q,a)

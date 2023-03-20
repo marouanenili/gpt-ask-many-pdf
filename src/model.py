@@ -178,7 +178,71 @@ def query(selected_options,text, index, task=None, temperature=0.0, max_frags=1,
 	out['prompt'] = prompt
 	out['text'] = answer
 	return out
+def query_far(text,options):
+	import pickle
+	response_final_and_regulation = get_response_vectors('FAR',text)
+	out0 = query2(response_final_and_regulation)
+	if len(options) > 0 :
+		response_final_and_regulation = get_response_vectors(options,text)
+		response_final = response_final_and_regulation[0]
+		regulation = response_final_and_regulation[1]
+		id = int(response_final['matches'][0]['metadata']['page'])
+		index_name = response_final['namespace']
+		with open("pkl/" + index_name + ".pkl", "rb") as f:
+			index = pickle.load(f)
+		out = {}
+		selected = []
+		if id - 1 > 0:
+			selected.append(id - 1)
+		selected.append(id)
+		if id + 1 < len(index['texts']):
+			selected.append(id + 1)
+		# build context
+		SEPARATOR = '\n---\n'
+		context = ''
+		context_len = 0
+		frag_list = []
+		for id in selected:
+			frag = index['texts'][id]
+			frag_len = ai.get_token_count(frag)
+			if context_len + frag_len <= 3000:  # TODO: remove hardcode
+				context += SEPARATOR + frag  # add separator and text fragment
+				frag_list += [frag]
+				context_len = ai.get_token_count(context)
+		out['context_len'] = context_len
+		prompt = f"""
+				{task or 'Task: Answer question based on context.'}
 
+				Context:
+				{context}
+
+				Question: {text}
+
+				Answer:"""  # TODO: move to prompts.py
+		# Task = "Answer the question truthfully based on the text below. Include verbatim quote and a comment where to find it in the text (page and section number). After the quote write a step by step explanation. Use bullet points. Create a one sentence summary of the preceding output."
+
+		message = [
+			{"role": "system", "content": "Complete the text named Text1 ONLY based on the context add all additional information"},
+			{"role": "user", "content": "Text1:" + out0['text']},
+			{"role": "user", "content": "Context: " + context},
+		]
+
+		# GET ANSWER
+		resp2 = ai.complete(prompt, temperature=0, messages=message)
+		answer = resp2['text']
+		usage = resp2['usage']
+
+		# OUTPUT
+		out['selected'] = selected
+		out['regulation'] = regulation
+
+		out['frag`_list'] = frag_list
+		# out['query.vector'] = resp['vector']
+		out['usage'] = usage
+		out['prompt'] = prompt
+		out['text'] = answer
+		return out
+	return out0
 def get_response_vectors(names_spaces,text):
 	index_name = 'regulations'
 	pinecone.init(
