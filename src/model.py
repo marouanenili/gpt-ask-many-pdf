@@ -188,7 +188,7 @@ def query_far(text,options):
 		regulation = response_final_and_regulation[1]
 		id = int(response_final['matches'][0]['metadata']['page'])
 		index_name = response_final['namespace']
-		with open("pkl/" + index_name + ".pkl", "rb") as f:
+		with open("src/pkl/" + index_name + ".pkl", "rb") as f:
 			index = pickle.load(f)
 		out = {}
 		selected = []
