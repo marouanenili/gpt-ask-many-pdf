@@ -225,7 +225,7 @@ def query_far(text,options):
 		# Task = "Answer the question truthfully based on the text below. Include verbatim quote and a comment where to find it in the text (page and section number). After the quote write a step by step explanation. Use bullet points. Create a one sentence summary of the preceding output."
 
 		message = [
-			{"role": "system", "content": "Complete the text named Text1 ONLY based on the context add all additional information, rewrite the entire text 1 without writing text1: , then just add the new information from the context if there is"},
+			{"role": "system", "content": "Complete the text named Text1 ONLY based on the context add all additional information, rewrite the entire text 1 without writing text1: , then just add the new information from the context if there is, COPY AND PASTE THE CONTEXT and add the new information from text1, DO NOT MENTION THE WORD CONTEXT OR TEXT1"},
 			{"role": "system", "content": "Text1:" + out0['text']},
 			{"role": "system", "content": "Context: " + context},
 		]
