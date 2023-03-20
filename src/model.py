@@ -180,7 +180,7 @@ def query(selected_options,text, index, task=None, temperature=0.0, max_frags=1,
 	return out
 def query_far(text,options):
 	import pickle
-	response_final_and_regulation = get_response_vectors('FAR',text)
+	response_final_and_regulation = get_response_vectors(['FAR'],text)
 	out0 = query2(response_final_and_regulation,text)
 	if len(options) > 0 :
 		response_final_and_regulation = get_response_vectors(options,text)
@@ -252,6 +252,7 @@ def get_response_vectors(names_spaces,text):
 	index = pinecone.Index(index_name)
 	v = get_vectors([text])
 	responses = []
+
 	for name_space in names_spaces:
 
 		response = index.query(vector=v,top_k=1,include_values=True,namespace=name_space,include_metadata=True)

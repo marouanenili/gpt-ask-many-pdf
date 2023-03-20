@@ -59,7 +59,7 @@ def ui_output():
 	st.markdown(output)
 
 def b_ask():
-	disabled = check_disabled()
+	disabled = False  #check_disabled()
 	if st.button('Submit', disabled=disabled, type='primary'):
 		text = ss.get('question','')
 		hyde_prompt = ss.get('hyde_prompt')
