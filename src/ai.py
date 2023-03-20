@@ -5,11 +5,18 @@ BUTCHER_EMBEDDINGS = None # this should be None, as it cuts the embedding vector
 
 import openai
 import tiktoken
+import time
 
-def get_token_count(text):
-    encoder = tiktoken.encoding_for_model("gpt-3.5-turbo")
-    tokens = encoder.encode(text)
-    return len(tokens)
+def get_token_count(text,retry_delay=5):
+    while True:
+        try:
+            encoder = tiktoken.encoding_for_model("gpt-3.5-turbo")
+            tokens = encoder.encode(text)
+            return len(tokens)
+        except Exception as e:
+            print(f"Error: {e}")
+            print(f"Retrying in {retry_delay} seconds...")
+            time.sleep(retry_delay)
 
 
 
@@ -17,7 +24,7 @@ def get_token_count(text):
 def use_key(api_key):
     openai.api_key = api_key
 
-def complete(prompt, temperature=0.0,messages=[]):
+def complete(prompt, temperature=0.0,messages=[],retry_delay=5):
     kwargs = dict(
         model = 'gpt-3.5-turbo',
         max_tokens = 4000 - get_token_count(prompt),
@@ -25,11 +32,17 @@ def complete(prompt, temperature=0.0,messages=[]):
         messages = messages,
         n = 1,
     )
-    resp = openai.ChatCompletion.create(**kwargs)
-    out = {}
-    out['text']  = resp['choices'][0]['message']['content']
-    out['usage'] = resp['usage']
-    return out
+    while True:
+        try:
+            resp = openai.ChatCompletion.create(**kwargs)
+            out = {}
+            out['text'] = resp['choices'][0]['message']['content']
+            out['usage'] = resp['usage']
+            return out
+        except openai.error.APIError as e:
+            print(f"Error: {e}")
+            print(f"Retrying in {retry_delay} seconds...")
+            time.sleep(retry_delay)
 
 
 def old_complete(prompt, temperature=0.0):
