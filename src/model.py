@@ -182,9 +182,11 @@ def query_far(text,options):
 	import pickle
 	response_final_and_regulation = get_response_vectors(['FAR'],text)
 	out0 = query2(response_final_and_regulation,text)
-	if len(options) > 0 :
+	if len(options) > 0  :
 		task = "complete the text Text1 with information from only Context"
 		response_final_and_regulation = get_response_vectors(options,text)
+		if response_final_and_regulation == None:
+			return out0
 		response_final = response_final_and_regulation[0]
 		regulation = response_final_and_regulation[1]
 		id = int(response_final['matches'][0]['metadata']['page'])
@@ -257,7 +259,10 @@ def get_response_vectors(names_spaces,text):
 	for name_space in names_spaces:
 		print(name_space)
 		response = index.query(vector=v,top_k=1,include_values=True,namespace=name_space,include_metadata=True)
-		responses.append((response,name_space))
+		if response['matches'][0]['score'] > 0.5:
+			responses.append((response,name_space))
+	if len(responses) == 0:
+		return None
 	response_final = responses[0]
 
 	for response in responses:
