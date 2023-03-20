@@ -254,7 +254,7 @@ def get_response_vectors(names_spaces,text):
 	responses = []
 
 	for name_space in names_spaces:
-
+		print(name_space)
 		response = index.query(vector=v,top_k=1,include_values=True,namespace=name_space,include_metadata=True)
 		responses.append((response,name_space))
 	response_final = responses[0]

@@ -67,9 +67,8 @@ def b_ask():
 			summary = ss['index']['summary']
 			hyde_prompt += f" Context: {summary}\n\n"
 
-		with st.spinner('preparing answer'):
-			vector = model.get_response_vectors(ss.selected_options,text)
-			resp = model.query_far(vector, text)
+		with st.spinner('preparing answer')
+			resp = model.query_far( text,ss.selected_options)
 		q = text.strip() +' ('+resp['regulation']+")"
 		a = resp['text']  #.strip()
 		output_add(q,a)
