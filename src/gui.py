@@ -126,7 +126,7 @@ def select_pdf():
 		# Check if the current file is a file or directory
 		if os.path.isfile(os.path.join(folder_path, filename)):
 			options_list.append(filename[:-4])
-	options_list.remove('FAR')
+
 	option = st.multiselect('Select three reglementations:',
 							options=options_list,max_selections=3)
 
