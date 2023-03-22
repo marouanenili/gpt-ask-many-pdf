@@ -69,7 +69,7 @@ def b_ask():
 
 		with st.spinner('preparing answer'):
 			vector = model.get_response_vectors(ss.selected_options,text)
-			if not vector:
+			if vector == []:
 				st.error('No results found please change your question or the options selected.')
 				return
 			resp = model.query2(vector, text)
