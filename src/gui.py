@@ -178,8 +178,8 @@ def app():
 	timer = 1
 	# Run the selected page
 	if selection == "Public":
-		select_pdf()
 		ui_question()
+		select_pdf()
 		b_ask()
 	elif selection == "Admin":
 		page2()
