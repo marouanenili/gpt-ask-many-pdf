@@ -195,7 +195,7 @@ def get_response_vectors(names_spaces,text):
 			continue
 		elif response['matches'][0]['score'] > 0.5:
 			responses.append((response,name_space))
-	if len(responses[0]) == 0:
+	if len(responses) == 0:
 		return []
 	response_final = responses[0]
 	for response in responses:
