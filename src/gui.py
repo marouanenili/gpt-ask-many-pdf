@@ -130,7 +130,7 @@ def select_pdf():
 		if os.path.isfile(os.path.join(folder_path, filename)):
 			options_list.append(filename[:-4])
 
-	option = st.multiselect('Select three reglementations:',
+	option = st.multiselect('## Select at mostthree reglementations:',
 							options=options_list,max_selections=3)
 
 	if 'selected_options' not in ss:

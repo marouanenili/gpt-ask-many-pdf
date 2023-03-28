@@ -6,7 +6,7 @@ from model import index_file
 api_key = "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"
 use_key(api_key)
 # Index the PDF file and store the result in the "out" variable
-out = index_file("FAR.pdf")
+out = index_file("FAR_Federal Acquisition Regulation for Fiscal Year 2019.pdf")
 
 
 # Save the "out" variable to a file
