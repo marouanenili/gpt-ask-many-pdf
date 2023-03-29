@@ -241,13 +241,49 @@ def get_response_vectors(options,text):
 	return response_final
 
 def query2(response_final_and_regulation,text, temperature=0.0, max_frags=1, hyde=False, hyde_prompt=None, limit=None):
+	dict_namespaces = {
+		"(Sofars) Purpose, Authority, Administration, Agency acquisition regulations, deviations from the FAR": "SOFARS Full",
+		"(TRANSFARS) policies and procedures for USTRANSCOM contracting officers": "TRANSFARS",
+		"Air Force Federal Acquisition Regulation Supplement": "AFFARS",
+		"Air Force Federal Acquisition Regulation Supplement Full": "AFARS_FULL",
+		"Broadcasting Board of Governors Acquisition Regulation Supplement": "CFR-2021-title48-vol6-chap19",
+		"Defense Federal Acquisition Regulation": "DFARS",
+		"Department of Justice": "CFR-2021-title48-vol6-chap28",
+		"Department of Agriculture's Acquisition Regulation System": "CFR-2021-title48-vol4-chap4",
+		"Department of Commerce Acquisition Regulations System": "CFR-2021-title48-vol5-chap13",
+		"Department of Education Acquisition Regulation": "CFR-2021-title48-vol7-chap34",
+		"Department of Energy's Federal Acquisition Regulations System": "CFR-2021-title48-vol5-chap9",
+		"Department of Homeland Security's Homeland Security Acquisition Regulation (HSAR)": "CFR-2021-title48-vol7-chap30",
+		"Department of Housing and Urban Development's Federal Acquisition Regulation System": "CFR-2021-title48-vol6-chap24",
+		"Department of Labor Acquisition Regulation System": "CFR-2021-title48-vol7-chap29",
+		"Department of State Acquisition Regulations System": "CFR-2021-title48-vol4-chap6",
+		"Department of the Interior Acquisition Regulation System": "CFR-2021-title48-vol5-chap14",
+		"Department of the Treasury Acquisition Regulation (DTAR) System": "CFR-2021-title48-vol5-chap10",
+		"Department of Transportation": "CFR-2021-title48-vol5-chap12",
+		"Department of Veterans Affairs Acquisition Regulation System": "vaar",
+		"DEPARTMENT OF VETERANS  AFFAIRS": "CFR-2021-title48-vol5-chap8",
+		"Environmental Protection Agency's regulations": "CFR-2021-title48-vol6-chap15",
+		"FAR_Federal Acquisition Regulation for Fiscal Year 2019": "FAR",
+		"Federal Aquisition System (DARS)": "DARS_Full",
+		"Federal Aquisition System (DLAD)": "DLAD_Full",
+		"GSA Acquisition Manual (GSAM)": "GSAM",
+		"HHS Acquisition Regulation System": "CFR-2021-title48-vol4-chap3",
+		"Nuclear Regulatory Commission Acquisition Regulation System": "CFR-2021-title48-vol6-chap20",
+		"Office of Personnel Management Federal Employees Health Benefits Acquisition": "CFR-2021-title48-vol6-chap16",
+		"Office of Personnel  Management, Federal Employees Group  Life Insurance Federal Acquisition  Regulation ": "CFR-2021-title48-vol6-chap21",
+		"Regulations for federal government procurement": "NMCARS_Full",
+		"Rules and regulations for government procurement": "CFR-2021-title48-vol6-chap18",
+		"The Federal Acquisition Regulation (FAR) Volume III-P Arts 201 to 253, issued for Fiscal Year 2020": "DFARSPGI",
+
+	}
+	new_dict = {v: k for k, v in dict_namespaces.items()}
 	task = "Answer the question truthfully based on the text below. Include verbatim quote and a comment where to find it in the text (page and section number). After the quote write a step by step explanation. Use bullet points. Create a one sentence summary of the preceding output."
 	import pickle
 	"get dictionary with the answer for the given question (text)."
 	response_final = response_final_and_regulation[0]
 	regulation = response_final_and_regulation[1]
 	id = int(response_final['matches'][0]['metadata']['page'])
-	index_name = response_final['namespace']
+	index_name = new_dict[response_final['namespace']]
 	with open("src/pkl/"+index_name+".pkl", "rb") as f:
 		index = pickle.load(f)
 	out = {}
